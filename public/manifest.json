@@ -1,0 +1,16 @@
+{
+  "name": "CodeBeat - 编程关键词记忆节拍",
+  "short_name": "CodeBeat",
+  "description": "通过闪卡、测验和间隔重复学习编程关键字",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

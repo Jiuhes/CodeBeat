@@ -1,0 +1,365 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Custom dynamic brand color */
+  --color-brand: hsl(var(--brand));
+  --color-brand-foreground: hsl(var(--brand-foreground));
+
+  /* Language colors */
+  --color-lang-python: #3b82f6;
+  --color-lang-javascript: #eab308;
+  --color-lang-react: #06b6d4;
+  --color-lang-vue: #10b981;
+  --color-lang-nestjs: #ef4444;
+
+  /* Study state colors */
+  --color-state-mastered: #10b981;
+  --color-state-learning: #f59e0b;
+  --color-state-due: #3b82f6;
+  --color-state-accuracy: #8b5cf6;
+
+  /* SRS quality ratings colors */
+  --color-rating-again: #ef4444;
+  --color-rating-hard: #f59e0b;
+  --color-rating-good: #10b981;
+  --color-rating-easy: #3b82f6;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 98%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.75rem;
+
+    /* Light Theme Brand Accent (Amber-600) */
+    --brand: 38 92% 50%;
+    --brand-foreground: 0 0% 98%;
+  }
+
+  .dark {
+    /* Option A (Default Dark): Obsidian Carbon & Bronze Amber */
+    --background: 240 10% 3.9%; /* Zinc 950 #09090b */
+    --foreground: 240 5% 96%; /* Zinc 50 */
+    --card: 240 10% 5.9%; /* Zinc 900 #18181b */
+    --card-foreground: 240 5% 96%;
+    --popover: 240 10% 5.9%;
+    --popover-foreground: 240 5% 96%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%; /* Zinc 800 */
+    --secondary-foreground: 240 5% 96%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 240 5% 96%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 96%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    /* Brand Accent: Bronze Amber (#d97706) */
+    --brand: 38 92% 50%;
+    --brand-foreground: 0 0% 98%;
+  }
+
+  /* Option B: Deep Charcoal & Indigo */
+  .dark-indigo {
+    --background: 222 47% 4%; /* #0b0f19 equivalent */
+    --card: 222 35% 8%; /* #111625 equivalent */
+    --popover: 222 35% 8%;
+    --border: 217 33% 15%; /* #1f293d equivalent */
+    --brand: 239 84% 67%; /* Indigo #6366f1 */
+    --brand-foreground: 0 0% 98%;
+  }
+
+  /* Option C: Charcoal & Forest Moss */
+  .dark-moss {
+    --background: 0 0% 7%; /* Charcoal #121212 */
+    --card: 0 0% 11%; /* Smoke Card #1c1c1c */
+    --popover: 0 0% 11%;
+    --border: 0 0% 16%; /* Smoke border #292929 */
+    --brand: 142 70% 45%; /* Moss green #10b981 */
+    --brand-foreground: 0 0% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+/* CodeBeat custom styles */
+.animate-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+/* Code font */
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+/* Clean Minimalist SaaS Glassmorphism */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(228, 228, 231, 0.6);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark .glass-panel {
+  background: rgba(9, 9, 11, 0.5);
+  border: 1px solid rgba(63, 63, 70, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.bg-cyber-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(63, 63, 70, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(63, 63, 70, 0.05) 1px, transparent 1px);
+}
+
+.dark .bg-cyber-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.light .bg-cyber-grid {
+  background-image: 
+    linear-gradient(to right, rgba(9, 9, 11, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(9, 9, 11, 0.02) 1px, transparent 1px);
+}
+
+/* Smooth subtle transitions */
+.hover-scale {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-scale:hover {
+  transform: translateY(-2px);
+  border-color: hsl(var(--brand) / 0.4);
+}
+
+.kbd {
+  display: inline-block;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.625rem;
+  line-height: 1;
+  background-color: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(2px); }
+}
+
+/* --- High-Quality 3D Flip Card Utilities --- */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* --- Spotlight Card Interaction --- */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, hsl(var(--brand) / 0.08) 0%, hsl(var(--brand) / 0.02) 45%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  z-index: 1;
+}
+.spotlight-card:hover .spotlight-glow {
+  opacity: 1;
+}
+
+/* --- Forge Hot Glow States --- */
+.forge-glow-warm {
+  box-shadow: 0 0 15px hsl(var(--brand) / 0.15), 0 0 5px hsl(var(--brand) / 0.05);
+  border-color: hsl(var(--brand) / 0.3) !important;
+}
+.forge-glow-hot {
+  box-shadow: 0 0 25px hsl(var(--brand) / 0.3), 0 0 8px hsl(var(--brand) / 0.1);
+  border-color: hsl(var(--brand) / 0.5) !important;
+  animation: heatPulse 2s infinite ease-in-out;
+}
+.forge-glow-white {
+  box-shadow: 0 0 35px hsl(var(--brand) / 0.4), inset 0 0 12px hsl(var(--brand) / 0.15);
+  border-color: hsl(var(--brand) / 0.7) !important;
+  animation: whiteHeatPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes heatPulse {
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--brand) / 0.2); }
+  50% { box-shadow: 0 0 30px hsl(var(--brand) / 0.45); }
+}
+
+@keyframes whiteHeatPulse {
+  0%, 100% { box-shadow: 0 0 30px hsl(var(--brand) / 0.3), 0 0 10px hsl(var(--brand) / 0.15); }
+  50% { box-shadow: 0 0 45px hsl(var(--brand) / 0.6), 0 0 20px hsl(var(--brand) / 0.35); }
+}
+
+/* --- Animated Lava Heat Bar --- */
+.lava-flow {
+  background: linear-gradient(90deg, 
+    hsl(var(--brand) / 0.7), 
+    hsl(var(--brand)), 
+    hsl(var(--brand) / 0.4), 
+    hsl(var(--brand)), 
+    hsl(var(--brand) / 0.7)
+  );
+  background-size: 300% 100%;
+  animation: lavaFlowAnim 2.5s infinite linear;
+}
+@keyframes lavaFlowAnim {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* --- Micro Interactive Animations --- */
+.key-press-active {
+  transform: scale(0.92) translateZ(0);
+  background-color: hsl(var(--brand) / 0.2) !important;
+  border-color: hsl(var(--brand) / 0.5) !important;
+  box-shadow: 0 0 8px hsl(var(--brand) / 0.2);
+}
+
+.letter-slot-pop {
+  animation: slotPop 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes slotPop {
+  0% { transform: scale(0.85) translateY(3px); opacity: 0.5; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* --- CSS Confetti Rain (No Heavy JS Libraries Required) --- */
+.confetti-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 40;
+}
+.confetti-piece {
+  position: absolute;
+  top: -15px;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  opacity: 0.9;
+  animation: confettiDrop 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes confettiDrop {
+  0% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(400px) rotate(720deg) translateX(var(--x-offset, 30px));
+    opacity: 0;
+  }
+}
+
+/* --- Detail Slide In Drawer Animation --- */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.animate-slide-in {
+  animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
