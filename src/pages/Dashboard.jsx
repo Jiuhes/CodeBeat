@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import db from "../db";
 import {
-  Brain,
   RotateCcw,
   Search,
   TrendingUp,
@@ -15,21 +15,30 @@ import {
   Sparkles,
   Calendar,
   Pencil,
+  Trophy,
+  
+  CalendarDays,
 } from "lucide-react";
 import LANGUAGES from "../languages";
 import { Card, CardContent } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
-import db from "../db";
 
 export default function Dashboard({ cards, settings }) {
   const navigate = useNavigate();
   const [activities, setActivities] = useState([]);
+
+  const [todayStats, setTodayStats] = useState({ practiced: 0, correct: 0, wrong: 0 });
+  const [totalStats, setTotalStats] = useState({});
+  const [achievements, setAchievements] = useState({});
 
   useEffect(() => {
     async function loadActivity() {
       try {
         const act = await db.getAllActivity();
         setActivities(act || []);
+        setTodayStats(db.getTodayStats());
+        setTotalStats(db.getStats());
+        setAchievements(db.getAchievements());
       } catch (e) {
         console.error("加载学习动态失败:", e);
       }
@@ -133,34 +142,27 @@ export default function Dashboard({ cards, settings }) {
 
   const actions = [
     {
+      label: "开始拼写",
+      desc: "逐字母拼写练习，拼过才记得住",
+      icon: Pencil,
+  Trophy,
+  Flame,
+  CalendarDays,
+      path: "/spell",
+      color: "text-brand",
+      bg: "bg-brand/10",
+      count: null,
+      badge: "核心",
+    },
+    {
       label: "浏览词库",
       desc: "查看并学习新关键字",
       icon: Search,
       path: "/browse",
-      color: "text-brand",
-      bg: "bg-brand/10",
-      count: stats.newCount,
-      badge: "新内容",
-    },
-    {
-      label: "练习测试",
-      desc: "自我检验与模拟练习",
-      icon: Brain,
-      path: "/quiz",
-      color: "text-brand",
-      bg: "bg-brand/10",
-      count: null,
-      badge: "测试",
-    },
-    {
-      label: "拼写练习",
-      desc: "键盘盲打物理键拼写",
-      icon: Pencil,
-      path: "/spell",
       color: "text-state-due",
       bg: "bg-state-due/10",
-      count: null,
-      badge: "拼写",
+      count: stats.newCount,
+      badge: "新内容",
     },
     {
       label: "语言对比",

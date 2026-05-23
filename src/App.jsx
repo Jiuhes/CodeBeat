@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Routes, Route, NavLink, useLocation, useNavigate, Navigate } from "react-router-dom";
 import {
-  Brain,
   RotateCcw,
   Search,
   ArrowLeftRight,
@@ -18,7 +17,6 @@ import {
   Pencil,
 } from "lucide-react";
 import Dashboard from "./pages/Dashboard";
-import Quiz from "./pages/Quiz";
 import Spell from "./pages/Spell";
 import Browse from "./pages/Browse";
 import Compare from "./pages/Compare";
@@ -109,7 +107,6 @@ class ErrorBoundary extends React.Component {
 
 const navItems = [
   { path: "/", label: "概览", icon: HomeIcon },
-  { path: "/quiz", label: "练习", icon: Brain },
   { path: "/spell", label: "拼写", icon: Pencil },
   { path: "/browse", label: "词库", icon: Search },
   { path: "/compare", label: "对比", icon: ArrowLeftRight },
@@ -171,6 +168,17 @@ export default function App() {
       setSettings(s);
       applyTheme(s.theme);
 
+      // Guest users: all languages available, skip onboarding
+      if (user.isGuest) {
+        const guestSettings = { ...s, selectedLanguages: ['python', 'javascript', 'react', 'vue', 'nestjs'] };
+        setSettings(guestSettings);
+        await db.saveSettings(guestSettings);
+        const existing = await seedMissingCards(['python', 'javascript', 'react', 'vue', 'nestjs']);
+        setCards(existing);
+        setReady(true);
+        return;
+      }
+
       if (!s.selectedLanguages || s.selectedLanguages.length === 0) {
         setNeedsOnboarding(true);
         setReady(true);
@@ -193,6 +201,18 @@ export default function App() {
     const s = await db.getSettings();
     setSettings(s);
     applyTheme(s.theme);
+
+    // Guest users: all languages available, skip onboarding
+    if (user.isGuest) {
+      const guestSettings = { ...s, selectedLanguages: ['python', 'javascript', 'react', 'vue', 'nestjs'] };
+      setSettings(guestSettings);
+      await db.saveSettings(guestSettings);
+      const existing = await seedMissingCards(['python', 'javascript', 'react', 'vue', 'nestjs']);
+      setCards(existing);
+      navigate('/spell');
+      setReady(true);
+      return;
+    }
 
     if (!s.selectedLanguages || s.selectedLanguages.length === 0) {
       setNeedsOnboarding(true);
@@ -451,10 +471,7 @@ export default function App() {
               path="/"
               element={<Dashboard cards={filteredCards} settings={settings} />}
             />
-            <Route
-              path="/quiz"
-              element={<Quiz cards={filteredCards} settings={settings} />}
-            />
+
             <Route
               path="/spell"
               element={<Spell cards={filteredCards} settings={settings} />}

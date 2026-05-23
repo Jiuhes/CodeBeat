@@ -11,7 +11,7 @@ let dbInstance = null
 // Base URL and Asset Path Helpers
 const baseUrl = import.meta.env.BASE_URL || '/'
 const wasmUrl = baseUrl.endsWith('/') ? baseUrl + 'sql-wasm.wasm' : baseUrl + '/sql-wasm.wasm'
-const seedDbUrl = baseUrl.endsWith('/') ? baseUrl + 'seed.db' : baseUrl + '/seed.db'
+const seedDbUrl = baseUrl.endsWith('/') ? baseUrl + 'seed.db?v=2' : baseUrl + '/seed.db?v=2'
 
 // OPFS helpers
 function isOPFSSupported() {
@@ -266,7 +266,8 @@ async function migrateFromIndexedDB(sqliteDb) {
 async function seedIntoDB(sqliteDb) {
   const existing = sqliteDb.exec('SELECT COUNT(*) as cnt FROM seed_keywords')
   const count = existing[0] ? existing[0].values[0][0] : 0
-  if (count >= 169) return
+  // Always re-seed to pick up definition updates from server
+  // (removed count >= 169 guard)
   const SQL = await initSqlJs({ locateFile: () => wasmUrl })
   const resp = await fetch(seedDbUrl)
   const buf = await resp.arrayBuffer()
@@ -479,6 +480,23 @@ const db = {
     return newUser
   },
   
+
+  async guestLogin() {
+    const guestUser = {
+      id: 'guest_' + Date.now(),
+      username: '游客体验',
+      avatar: 'code',
+      isGuest: true,
+      createdAt: new Date().toISOString()
+    }
+    localStorage.setItem('codebeat_current_user', JSON.stringify(guestUser))
+    currentUserId = guestUser.id
+    initPromise = null
+    dbInstance = null
+    await getSQLiteDB()
+    return guestUser
+  },
+
   async login(username, password) {
     if (!username || !password) {
       throw new Error('用户名和密码不能为空')
